@@ -10,7 +10,7 @@ export const isAuthenticated = async (req, res, next) => {
         if (!token) {
             return res.status(StatusCodes.FORBIDDEN).json(
                 customErrorResponse({
-                    explanation: 'Invalid data sent from the clinet',
+                    explanation: 'Invalid data sent from the client',
                     message: 'No auth token provided'
                 })
             );
@@ -28,7 +28,7 @@ export const isAuthenticated = async (req, res, next) => {
         if (error.name === 'JsonWebTokenError') {
             return res.status(StatusCodes.FORBIDDEN).json(
                 customErrorResponse({
-                    explanation: 'Invalid data sent from the clinet',
+                    explanation: 'Invalid data sent from the client',
                     message: 'Invalid auth token provided'
                 })
             );

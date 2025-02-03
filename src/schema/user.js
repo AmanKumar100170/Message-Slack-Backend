@@ -12,10 +12,12 @@ const userSchema = new mongoose.Schema({
             'Please fill a valid email address'
         ]
     },
+
     password: {
         type: String,
         required: [true, 'Password is required'],
     },
+
     username: {
         type: String,
         required: [true, 'Username is required'],
@@ -27,6 +29,7 @@ const userSchema = new mongoose.Schema({
             'Username must contain only letters and numbers'
         ]
     },
+    
     avatar: {
         type: String
     }
