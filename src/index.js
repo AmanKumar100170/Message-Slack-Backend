@@ -1,6 +1,7 @@
 import express from 'express';
 
 import connectDB from './config/dbconfig.js';
+import mailer from './config/mailConfig.js';
 import { PORT } from './config/serverConfig.js';
 import apiRouter from './routes/apiRoutes.js';
 
@@ -11,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api', apiRouter);
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
   connectDB();
 });
