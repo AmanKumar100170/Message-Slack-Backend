@@ -1,8 +1,9 @@
 import { StatusCodes } from "http-status-codes";
 import jwt from "jsonwebtoken";
-import { customErrorResponse, internalErrorResponse } from "../utils/common/responseObjects.js";
+
 import { JWT_SECRET } from "../config/serverConfig.js";
 import userRepository from "../repositories/userRepository.js";
+import { customErrorResponse, internalErrorResponse } from "../utils/common/responseObjects.js";
 
 export const isAuthenticated = async (req, res, next) => {
     try {
@@ -17,8 +18,8 @@ export const isAuthenticated = async (req, res, next) => {
         }
 
         const response = jwt.verify(token, JWT_SECRET);
-        
-        const user = userRepository.getById(response.id);
+
+        const user = await userRepository.getById(response.id);
         req.user = user.id;
         next();
 

@@ -2,7 +2,7 @@ import Channel from '../schema/channel.js';
 import crudRepository from './crudRepository.js';
 
 const channelRepository = {
-    ...crudRepository(User),
+    ...crudRepository(Channel),
 };
 
 export default channelRepository;
