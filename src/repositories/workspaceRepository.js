@@ -13,7 +13,7 @@ const workspaceRepository = {
         const workspace = await Workspace.findById(workspaceId)
         .populate('members.memberId', 'username email avatar')
         .populate('channels');
-        
+
         return workspace;
     },
 
@@ -110,7 +110,7 @@ const workspaceRepository = {
             });
         }
 
-        const channel = await channelRepository.create({ name: channelName });
+        const channel = await channelRepository.create({ name: channelName, workspaceId });
 
         workspace.channels.push(channel);
         await workspace.save();

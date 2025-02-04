@@ -2,14 +2,14 @@ import { StatusCodes } from 'http-status-codes';
 import { v4 as uuidv4 } from 'uuid';
 
 import channelRepository from '../repositories/channelRepository.js';
+import userRepository from '../repositories/userRepository.js';
 import workspaceRepository from '../repositories/workspaceRepository.js';
 import ClientError from '../utils/errors/clientError.js';
 import ValidationError from '../utils/errors/validationError.js';
-import userRepository from '../repositories/userRepository.js';
 
 const isUserAdminOfWorkspace = (workspace, userId) => {
     return workspace.members.find(
-        (member) => member.memberId.toString() === userId && member.role === 'admin'
+        (member) => (member.memberId.toString() === userId || member.memberId._id.toString() === userId) && member.role === 'admin'
     );
 };
 
@@ -158,7 +158,7 @@ export const getWorkspaceByJoinCodeService = async (joinCode, userId) => {
     }
 };
 
-export const updatedWorkspaceService = async (workspaceId, userId, workspaceData) => {
+export const updateWorkspaceService = async (workspaceId, userId, workspaceData) => {
     try {
         const workspace = await workspaceRepository.getById(workspaceId);
         if (!workspace) {
@@ -186,7 +186,7 @@ export const updatedWorkspaceService = async (workspaceId, userId, workspaceData
     }
 };
 
-export const addMemberToWorkspaceService = async (workspaceId, memberId, role) => {
+export const addMemberToWorkspaceService = async (workspaceId, memberId, role, userId) => {
     try {
         const workspace = await workspaceRepository.getById(workspaceId);
         if (!workspace) {
@@ -203,6 +203,15 @@ export const addMemberToWorkspaceService = async (workspaceId, memberId, role) =
                 explanation: 'Invalid data sent from the client',
                 message: 'User not found',
                 statusCode: StatusCodes.NOT_FOUND
+            });
+        }
+
+        const isAdmin = isUserAdminOfWorkspace(workspace, userId);
+        if (!isAdmin) {
+            throw new ClientError({
+                explanation: 'User is not an admin of this workspace',
+                message: 'Cannot update the workspace',
+                statusCode: StatusCodes.UNAUTHORIZED
             });
         }
 
@@ -255,7 +264,7 @@ export const addChannelToWorkspaceService = async (workspaceId, channelName, use
         const response = await workspaceRepository.addChannelToWorkspace(workspaceId, channelName);
         return response;
     } catch (error) {
-        console.log('Add channel to workspace service rror', error);
+        console.log('Add channel to workspace service error', error);
         throw error;
     }
 };
