@@ -1,8 +1,9 @@
-import messageRepository from '../repositories/messageRepository.js';
-import channelRepository from '../repositories/channelRepository.js';
-import { isUserMemberOfWorkspace } from './workspaceService.js';
-import ClientError from '../utils/errors/clientError.js';
 import { StatusCodes } from 'http-status-codes';
+
+import channelRepository from '../repositories/channelRepository.js';
+import messageRepository from '../repositories/messageRepository.js';
+import ClientError from '../utils/errors/clientError.js';
+import { isUserMemberOfWorkspace } from './workspaceService.js';
 
 export const getMessageService = async (messageParams, page, limit, user) => {
     try {
@@ -23,6 +24,16 @@ export const getMessageService = async (messageParams, page, limit, user) => {
         return messages;        
     } catch (error) {
         console.log('Get messages service error', error);
+        throw error;
+    }
+};
+
+export const createMessageService = async (message) => {
+    try {
+        const newMessage = await messageRepository.create(message);
+        return newMessage;
+    } catch (error) {
+        console.log('Create message service error', error);
         throw error;
     }
 };
