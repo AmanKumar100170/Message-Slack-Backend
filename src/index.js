@@ -1,7 +1,6 @@
 import express from 'express';
 
 import connectDB from './config/dbconfig.js';
-import mailer from './config/mailConfig.js';
 import { PORT } from './config/serverConfig.js';
 import apiRouter from './routes/apiRoutes.js';
 
