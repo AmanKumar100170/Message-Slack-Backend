@@ -280,9 +280,9 @@ export const addChannelToWorkspaceService = async (workspaceId, channelName, use
 export const resetWorkspaceJoinCodeService = async (workspaceId, userId) => {
     try {
         const newJoinCode = uuidv4().substring(0, 6).toUpperCase();
-        const updatedWorkspace = await updateWorkspaceService(workspaceId, {
+        const updatedWorkspace = await updateWorkspaceService(workspaceId, userId, {
             joinCode: newJoinCode
-        }, userId);
+        });
 
         return updatedWorkspace;
     } catch (error) {
