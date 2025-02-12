@@ -13,7 +13,11 @@ import apiRouter from './routes/apiRoutes.js';
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server);
+const io = new Server(server,{
+  cors: {
+    origin: '*'
+  }
+});
 
 app.use(cors());
 app.use(express.json());
@@ -26,6 +30,7 @@ app.use('/api', apiRouter);
 app.get('/verify/:token', verifyEmailController);
 
 io.on('connection', (socket) => {
+  console.log('A user connected', socket.id);
   MessageSocketHandlers(io, socket);
   ChannelSocketHandlers(io, socket);
 });
