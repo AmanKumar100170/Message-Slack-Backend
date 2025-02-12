@@ -8,6 +8,7 @@ import connectDB from './config/dbconfig.js';
 import { PORT } from './config/serverConfig.js';
 import ChannelSocketHandlers from './controllers/channelSocketController.js';
 import MessageSocketHandlers from './controllers/messageSocketController.js';
+import { verifyEmailController } from './controllers/workspaceController.js';
 import apiRouter from './routes/apiRoutes.js';
 
 const app = express();
@@ -21,6 +22,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/ui', bullServerAdapter.getRouter());
 
 app.use('/api', apiRouter);
+
+app.get('/verify/:token', verifyEmailController);
 
 io.on('connection', (socket) => {
   MessageSocketHandlers(io, socket);
