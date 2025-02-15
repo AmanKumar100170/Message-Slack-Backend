@@ -8,11 +8,11 @@ export const getMessageController = async (req, res) => {
         const messages = await getMessageService({
             channelId: req.params.channelId
         },
-        req.query.page || 1,
-        req.query.limit || 20,
-        req.user
-    );
-
+            req.query.page || 1,
+            req.query.limit || 20,
+            req.user
+        );
+        
         return res.status(StatusCodes.OK).json(successResponse(messages, 'Messages fetched successfully'));
     } catch (error) {
         console.log('Get message controller error', error);
