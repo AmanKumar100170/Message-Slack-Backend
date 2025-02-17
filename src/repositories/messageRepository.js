@@ -12,6 +12,13 @@ const messageRepository = {
             .populate('senderId', 'username email avatar');
         
         return messages;
+    },
+
+    getRecentMessage: async () => {
+        const message = await Message.findOne()
+            .sort({ createdAt: -1 })
+            .populate('senderId', 'username email avatar');
+        return message;
     }
 };
 

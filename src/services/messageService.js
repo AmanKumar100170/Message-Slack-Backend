@@ -30,7 +30,8 @@ export const getMessageService = async (messageParams, page, limit, user) => {
 
 export const createMessageService = async (message) => {
     try {
-        const newMessage = await messageRepository.create(message);
+        await messageRepository.create(message);
+        const newMessage = await messageRepository.getRecentMessage();
         return newMessage;
     } catch (error) {
         console.log('Create message service error', error);
