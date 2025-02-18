@@ -15,6 +15,7 @@
   "description": "",
   "dependencies": {
     "@bull-board/express": "^6.7.4",
+    "aws-sdk": "^2.1692.0",
     "bcrypt": "^5.1.1",
     "bull": "^4.16.5",
     "cors": "^2.8.5",
